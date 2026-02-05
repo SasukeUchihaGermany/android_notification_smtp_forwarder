@@ -1,7 +1,7 @@
 Android SMTP Notification App
 
 Lightweight Android application for sending email notifications via SMTP directly from an Android device.
-Designed to run headless (no UI) and trigger emails programmatically from app logic or background services.
+Designed to run headless (no UI) and trigger emails programmatically from app logic in background services.
 
 Features
 
