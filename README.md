@@ -1,40 +1,125 @@
-# Notification Listener
+Android SMTP Notification App
 
-# Track Phone Android
+Lightweight Android application for sending email notifications via SMTP directly from an Android device.
+Designed to run headless (no UI) and trigger emails programmatically from app logic or background services.
 
-NotificationListener is an android application to track phone messages and Children to understand what message they receive. (using Java)
+Features
 
-I tried to found a worked android application in GitHub, Finally i force to develop it.
+📧 Send emails via SMTP (TLS)
 
-Some of that wont works, But i release a new version something works great with new technology of Android.
+🤖 No UI – runs silently in background
 
-## Phone tracking
+⚡ Trigger-based (emails send only when code calls it)
 
-Some kids are smart and code on their phone. And they don't allow parents access to their phone.
+🧵 Suitable for Services / Workers / event hooks
 
-At this time, some programs allow multiple people to sign in at the same time.
-For example: Telegram
-But sometimes kids are smart enough to realize that.
+🔧 Simple integration into existing Android projects
 
-However, the best way to keep track of your child's activities is to control them remotely but accurately.
+How It Works
 
-Hope this is helpful to you.
-with regards
+Uses SMTP over TLS (smtp.gmail.com:587)
 
-**Idea:** Send all notification, sms to a web service.
+Email send logic is invoked explicitly from code
 
-**Name of application:** Samsung Update
+Credentials are injected via Gradle properties
 
-**SDK:**
+Runs inside the app process (no external dependencies)
 
-```
-compileSdkVersion 29
-buildToolsVersion "29.0.2"
-applicationId "android.notification"
-minSdkVersion 28
-targetSdkVersion 29
-```
+Configuration
+1. gradle.properties
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+MAIL_TO=recipient@email.com
 
-## Parent Notes
 
-This can be useful for all parents.
+⚠️ Security warning
+These values are embedded in the APK at build time.
+Do NOT use real or long-term credentials in production builds.
+This is done to deter malicious use of the app, this is intended for personal use only and at your own discretion.
+
+2. Email Sending Logic
+
+Emails are sent only when explicitly triggered by your code.
+
+Example (conceptual):
+
+SmtpMailer.send(
+    subject,
+    body
+);
+
+
+There is no automatic scheduling unless you add:
+
+WorkManager
+
+AlarmManager
+
+Foreground/background services
+
+Send Frequency
+
+❌ Not periodic by default
+
+✅ Sends once per trigger
+
+✅ Fully controlled by app logic
+
+If you want periodic or rate-limited emails, implement:
+
+WorkManager with constraints
+
+Internal debounce / cooldown logic
+
+Common Failure Causes
+
+Invalid SMTP credentials
+
+Gmail account not using App Passwords
+
+Network unavailable
+
+TLS blocked by device / network
+
+Check logs under:
+
+SmtpMailer
+
+Security Notes
+
+This project is not production-secure by default.
+
+Avoid in production:
+
+Hardcoded credentials
+
+Personal Gmail accounts
+
+Shipping SMTP secrets inside APKs
+
+Safer alternatives:
+
+Backend relay (API → SMTP)
+
+Token-based notification service
+
+Server-side mail dispatch
+
+Intended Use Cases
+
+Internal tools
+
+Device alerts
+
+Prototypes / PoCs
+
+Controlled environments
+
+Developer notifications
+
+License
+
+Internal / private use.
+Do not redistribute with embedded credentials.
